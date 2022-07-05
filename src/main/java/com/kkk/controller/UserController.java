@@ -45,7 +45,7 @@ public class UserController extends BaseController {
 			kUser.setAccount(account);
 			kUser.setRoleId(roleId);
 			kUser.setId(id);
-			
+
 			kUser.setUserName(userName);
 			List<KUser> merchants = userService.getUserList(kUser);
 			paging.setTotalCount(page.getTotal());
