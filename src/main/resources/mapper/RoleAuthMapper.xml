@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kkk.dao.RoleAuthDao">
+    <resultMap id="BaseResultMap" type="com.kkk.entity.SysRoleAuth">
+        <id column="role_auth" property="roleAuth" jdbcType="BIGINT"/>
+        <result column="auth_id" property="authId" jdbcType="BIGINT"/>
+        <result column="role_id" property="roleId" jdbcType="BIGINT"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+      role_auth, auth_id, role_id
+    </sql>
+    <select id="selectByMap" resultMap="BaseResultMap" parameterType="map">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_role_auth
+        where 1=1
+        <if test="authId != null">
+            and auth_id = #{authId,jdbcType=BIGINT}
+        </if>
+        <if test="roleAuth != null">
+            and role_auth = #{roleAuth,jdbcType=BIGINT}
+        </if>
+        <if test="role_id != null">
+            and role_id = #{roleId,jdbcType=BIGINT}
+        </if>
+    </select>
+</mapper>

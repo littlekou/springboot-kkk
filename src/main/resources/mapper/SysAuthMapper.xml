@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kkk.dao.AuthDao" >
+  <resultMap id="BaseResultMap" type="com.kkk.entity.SysAuth" >
+    <id column="auth_id" property="authId" jdbcType="BIGINT" />
+    <result column="auth_name" property="authName" jdbcType="VARCHAR" />
+    <result column="auth_action" property="authAction" jdbcType="VARCHAR" />
+    <result column="auth_seq" property="authSeq" jdbcType="VARCHAR" />
+    <result column="pid" property="pid" jdbcType="BIGINT" />
+    <result column="created_time" property="createdTime" jdbcType="TIMESTAMP" />
+    <result column="updated_time" property="updatedTime" jdbcType="TIMESTAMP" />
+    <result column="is_effective" property="isEffective" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    auth_id, auth_name, auth_action, auth_seq, pid, created_time, updated_time, is_effective
+  </sql>
+  <select id="selectAuth" resultMap="BaseResultMap" parameterType="map" >
+    select 
+    <include refid="Base_Column_List" />
+    from sys_auth
+    where 1=1
+     <if test="authId != null" >
+       and auth_id = #{authId,jdbcType=BIGINT}
+     </if>
+     <if test="authIds != null" >
+       and auth_id in 
+       <foreach collection="authIds" index="index" item="item" open="(" separator="," close=")">
+               #{item}       
+       </foreach>        
+     </if>
+     <if test="authName != null" >
+       and auth_name like concat(#{authName,jdbcType=VARCHAR},'%')
+     </if>
+     <if test="authAction != null" >
+       and auth_action = #{authAction,jdbcType=VARCHAR}
+     </if>
+     <if test="authSeq != null" >
+       and auth_seq = #{authSeq,jdbcType=VARCHAR}
+     </if>
+     <if test="pid != null" >
+       and pid = #{pid,jdbcType=BIGINT}
+     </if>
+   	 <if test="startTime != null">
+   	   AND created_time &gt;= #{startTime}
+   	 </if>
+     <if test="endTime != null">
+    	AND created_time &lt;= #{endTime}
+   	 </if>     
+     <if test="isEffective != null" >
+       and is_effective = #{isEffective,jdbcType=BIGINT}
+     </if>
+    <if test="authType != null" >
+      and (auth_type = #{authType,jdbcType=BIGINT} or auth_type = 0)
+    </if>
+    ORDER BY   is_effective DESC , auth_seq ASC , auth_id ASC
+  </select>
+  <!--<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >-->
+    <!--select -->
+    <!--<include refid="Base_Column_List" />-->
+    <!--from sys_auth-->
+    <!--where auth_id = #{authId,jdbcType=BIGINT}-->
+  <!--</select>-->
+  <!--<delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >-->
+    <!--delete from sys_auth-->
+    <!--where auth_id = #{authId,jdbcType=BIGINT}-->
+  <!--</delete>-->
+  <!--<insert id="insert" parameterType="com.hiveview.entity.sys.SysAuth" >-->
+    <!--insert into sys_auth (auth_id, auth_name, auth_action, -->
+      <!--auth_seq, pid, created_time, -->
+      <!--updated_time, is_effective)-->
+    <!--values (#{authId,jdbcType=BIGINT}, #{authName,jdbcType=VARCHAR}, #{authAction,jdbcType=VARCHAR}, -->
+      <!--#{authSeq,jdbcType=VARCHAR}, #{pid,jdbcType=BIGINT}, #{createdTime,jdbcType=TIMESTAMP}, -->
+      <!--#{updatedTime,jdbcType=TIMESTAMP}, #{isEffective,jdbcType=BIGINT})-->
+  <!--</insert>-->
+  <!--<insert id="insertSysAuth" parameterType="com.hiveview.entity.sys.SysAuth" >-->
+    <!--insert into sys_auth-->
+    <!--<trim prefix="(" suffix=")" suffixOverrides="," >-->
+      <!--<if test="authId != null" >-->
+        <!--auth_id,-->
+      <!--</if>-->
+      <!--<if test="authName != null" >-->
+        <!--auth_name,-->
+      <!--</if>-->
+      <!--<if test="authAction != null" >-->
+        <!--auth_action,-->
+      <!--</if>-->
+      <!--<if test="authSeq != null" >-->
+        <!--auth_seq,-->
+      <!--</if>-->
+      <!--<if test="pid != null" >-->
+        <!--pid,-->
+      <!--</if>-->
+      <!--<if test="createdTime != null" >-->
+        <!--created_time,-->
+      <!--</if>-->
+      <!--<if test="updatedTime != null" >-->
+        <!--updated_time,-->
+      <!--</if>-->
+      <!--<if test="isEffective != null" >-->
+        <!--is_effective,-->
+      <!--</if>-->
+    <!--</trim>-->
+    <!--<trim prefix="values (" suffix=")" suffixOverrides="," >-->
+      <!--<if test="authId != null" >-->
+        <!--#{authId,jdbcType=BIGINT},-->
+      <!--</if>-->
+      <!--<if test="authName != null" >-->
+        <!--#{authName,jdbcType=VARCHAR},-->
+      <!--</if>-->
+      <!--<if test="authAction != null" >-->
+        <!--#{authAction,jdbcType=VARCHAR},-->
+      <!--</if>-->
+      <!--<if test="authSeq != null" >-->
+        <!--#{authSeq,jdbcType=VARCHAR},-->
+      <!--</if>-->
+      <!--<if test="pid != null" >-->
+        <!--#{pid,jdbcType=BIGINT},-->
+      <!--</if>-->
+      <!--<if test="createdTime != null" >-->
+        <!--#{createdTime,jdbcType=TIMESTAMP},-->
+      <!--</if>-->
+      <!--<if test="updatedTime != null" >-->
+        <!--#{updatedTime,jdbcType=TIMESTAMP},-->
+      <!--</if>-->
+      <!--<if test="isEffective != null" >-->
+        <!--#{isEffective,jdbcType=BIGINT},-->
+      <!--</if>-->
+    <!--</trim>-->
+  <!--</insert>-->
+  <!--<update id="updateSysAuth" parameterType="com.hiveview.entity.sys.SysAuth" >-->
+    <!--update sys_auth-->
+    <!--<set >-->
+      <!--<if test="authName != null" >-->
+        <!--auth_name = #{authName,jdbcType=VARCHAR},-->
+      <!--</if>-->
+      <!--<if test="authAction != null" >-->
+        <!--auth_action = #{authAction,jdbcType=VARCHAR},-->
+      <!--</if>-->
+      <!--<if test="authSeq != null" >-->
+        <!--auth_seq = #{authSeq,jdbcType=VARCHAR},-->
+      <!--</if>-->
+      <!--<if test="pid != null" >-->
+        <!--pid = #{pid,jdbcType=BIGINT},-->
+      <!--</if>-->
+      <!--<if test="createdTime != null" >-->
+        <!--created_time = #{createdTime,jdbcType=TIMESTAMP},-->
+      <!--</if>-->
+      <!--<if test="updatedTime != null" >-->
+        <!--updated_time = #{updatedTime,jdbcType=TIMESTAMP},-->
+      <!--</if>-->
+      <!--<if test="isEffective != null" >-->
+        <!--is_effective = #{isEffective,jdbcType=BIGINT},-->
+      <!--</if>-->
+    <!--</set>-->
+    <!--where auth_id = #{authId,jdbcType=BIGINT}-->
+  <!--</update>-->
+  <!--<update id="updateByPrimaryKey" parameterType="com.hiveview.entity.sys.SysAuth" >-->
+    <!--update sys_auth-->
+    <!--set auth_name = #{authName,jdbcType=VARCHAR},-->
+      <!--auth_action = #{authAction,jdbcType=VARCHAR},-->
+      <!--auth_seq = #{authSeq,jdbcType=VARCHAR},-->
+      <!--pid = #{pid,jdbcType=BIGINT},-->
+      <!--created_time = #{createdTime,jdbcType=TIMESTAMP},-->
+      <!--updated_time = #{updatedTime,jdbcType=TIMESTAMP},-->
+      <!--is_effective = #{isEffective,jdbcType=BIGINT}-->
+    <!--where auth_id = #{authId,jdbcType=BIGINT}-->
+  <!--</update>-->
+</mapper>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kkk.dao.UserDao" >
+    <resultMap id="BaseResultMap" type="com.kkk.entity.KUser" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="account" property="account" jdbcType="VARCHAR" />
+    <result column="role_id" property="roleId" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="google_secret_key" property="googleSecretKey" jdbcType="VARCHAR" />
+    <result column="add_time" property="addTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    </resultMap>
+    <sql id="Base_Column_List" >
+    id, account, role_id, status, password, google_secret_key, add_time, update_time,user_name
+    </sql>
+
+    <select id="selectOne" resultMap="BaseResultMap" parameterType="com.kkk.entity.KUser" >
+    select
+    <include refid="Base_Column_List" />
+    from k_user
+    where 1=1
+     <if test="id != null" >
+       and id = #{id,jdbcType=BIGINT}
+     </if>
+     <if test="account != null" >
+       and account = #{account,jdbcType=VARCHAR}
+     </if>
+     <if test="roleId != null" >
+       and role_id = #{roleId,jdbcType=VARCHAR}
+     </if>
+     <if test="userName != null" >
+       and user_name = #{userName,jdbcType=VARCHAR}
+     </if>
+    </select>
+
+    <select id="selectByMap" resultMap="BaseResultMap" parameterType="com.kkk.entity.KUser" >
+        select
+        <include refid="Base_Column_List" />
+        from k_user
+        where 1=1
+        <if test="id != null and id != ''" >
+            and id = #{id,jdbcType=BIGINT}
+        </if>
+        <if test="account != null and account != ''" >
+            and account = #{account,jdbcType=VARCHAR}
+        </if>
+        <if test="roleId != null and roleId != ''" >
+            and role_id = #{roleId,jdbcType=VARCHAR}
+        </if>
+        <if test="userName != null and userName != ''" >
+            and user_name = #{userName,jdbcType=VARCHAR}
+        </if>
+    </select>
+
+    <select id="selectRole" resultType="com.kkk.entity.SysRole">
+        select
+        sys_role_id as roleId,role_name as roleName,is_effective as isEffective
+        from sys_role
+        order by sys_role_id
+    </select>
+
+
+</mapper>
