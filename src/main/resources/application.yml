@@ -1,6 +1,8 @@
 server:
-  port: 8081
+  port: 8080
   servlet:
+    session:
+      timeout: PT24H
     jsp:
       init-parameters:
         development: true
@@ -17,7 +19,9 @@ redis:
   #0关闭redis，1开启redis
   flag: 0
 
-mybatis:
-  mapper-locations: classpath:mapper/*.xml
-
 version: 1.0.0
+mybatis-plus:
+  mapper-locations: classpath:mapper/*.xml
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  type-aliases-package: com.kkk.entity

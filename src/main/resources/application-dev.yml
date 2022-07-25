@@ -6,3 +6,5 @@ spring:
     driver-class-name: com.mysql.jdbc.Driver
   redis:
     url: 127.0.0.1
+  freemarker:
+    suffix: .ftl

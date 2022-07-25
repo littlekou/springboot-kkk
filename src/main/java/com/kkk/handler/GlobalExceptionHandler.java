@@ -18,7 +18,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     @ResponseBody
-//    @ResponseStatus(code = HttpStatus.ACCEPTED)
+    @ResponseStatus(code = HttpStatus.ACCEPTED)
     public ExceptionResult exceptionHandler(HttpServletRequest request, Exception exception) {
         String method = request.getMethod();
         String msg = exception.getMessage();

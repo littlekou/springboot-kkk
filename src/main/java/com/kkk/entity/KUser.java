@@ -16,11 +16,12 @@ public class KUser {
     private Date addTime;
     private Date updateTime;
     private String googleSecretKey;
+    private Integer createBy;
     public KUser() {
 
     }
 
-    public KUser(int id, String account, String password, Integer roleId, Integer status, Date addTime, Date updateTime, String googleSecretKey) {
+    public KUser(int id, String account, String password, Integer roleId, Integer status, Date addTime, Date updateTime, String googleSecretKey,Integer createBy) {
         this.id = id;
         this.account = account;
         this.password = password;
@@ -29,5 +30,6 @@ public class KUser {
         this.addTime = addTime;
         this.updateTime = updateTime;
         this.googleSecretKey = googleSecretKey;
+        this.createBy = createBy;
     }
 }

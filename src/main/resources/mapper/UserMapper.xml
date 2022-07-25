@@ -11,10 +11,93 @@
     <result column="add_time" property="addTime" jdbcType="TIMESTAMP" />
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
     <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="create_by" property="createBy" jdbcType="BIGINT" />
     </resultMap>
     <sql id="Base_Column_List" >
     id, account, role_id, status, password, google_secret_key, add_time, update_time,user_name
     </sql>
+    <insert id="insertUser">
+        insert into k_user
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                id,
+            </if>
+            <if test="userName != null" >
+                user_name,
+            </if>
+            <if test="account != null" >
+                account,
+            </if>
+            <if test="roleId != null" >
+                role_id,
+            </if>
+            <if test="password != null" >
+                password,
+            </if>
+            <if test="status != null" >
+                status,
+            </if>
+            <if test="addTime != null" >
+                add_time,
+            </if>
+            <if test="createBy != null" >
+                create_by,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="userName != null" >
+                #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="account != null" >
+                #{account,jdbcType=VARCHAR},
+            </if>
+            <if test="roleId != null" >
+                #{roleId,jdbcType=INTEGER},
+            </if>
+            <if test="password != null" >
+                #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null" >
+                #{status,jdbcType=INTEGER},
+            </if>
+            <if test="addTime != null" >
+                #{addTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createBy != null" >
+                #{createBy,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateUser">
+        update k_user
+        <set >
+            <if test="account != null and account != ''" >
+                account = #{account,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null and password != ''" >
+                password = #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="roleId != null and roleId != ''" >
+                role_id = #{roleId,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null and status != ''" >
+                status = #{status,jdbcType=VARCHAR},
+            </if>
+            <if test="userName != null and userName != ''" >
+                user_name = #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null" >
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <delete id="deleteUser">
+        delete from k_user where id = #{id}
+    </delete>
 
     <select id="selectOne" resultMap="BaseResultMap" parameterType="com.kkk.entity.KUser" >
     select
@@ -54,12 +137,23 @@
         </if>
     </select>
 
+    <select id="getUserByColumn" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from k_user
+        where 1=1
+        <if test="key != null and key != ''" >
+            and ${key} = #{value}
+        </if>
+    </select>
+
     <select id="selectRole" resultType="com.kkk.entity.SysRole">
         select
         sys_role_id as roleId,role_name as roleName,is_effective as isEffective
         from sys_role
         order by sys_role_id
     </select>
+
 
 
 </mapper>

@@ -57,7 +57,7 @@ public class AdminController extends BaseController{
         if(StringUtils.isBlank(account)||StringUtils.isBlank(pwd)){
             return "page/login";
         }
-        KUser currentUser = userService.getUserByAccount(account);
+        KUser currentUser = userService.getUserByColumn("account",account);
         Map<String,Object> msgMap = getUserMsg(currentUser);
         req.setAttribute("google",msgMap.get("google"));
 

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kkk.dao.OrderDao" >
+    <resultMap id="BaseResultMap" type="com.kkk.entity.Orders" >
+        <id column="id" property="id" jdbcType="BIGINT" />
+        <result column="merchant_id" property="merchantId" jdbcType="VARCHAR" />
+        <result column="order_no" property="orderNo" jdbcType="VARCHAR" />
+        <result column="trade_no" property="tradeNo" jdbcType="VARCHAR" />
+        <result column="pay_type" property="payType" jdbcType="VARCHAR" />
+        <result column="order_price" property="orderPrice" jdbcType="VARCHAR" />
+        <result column="product_name" property="productName" jdbcType="VARCHAR" />
+        <result column="add_time" property="addTime" jdbcType="TIMESTAMP" />
+        <result column="pay_time" property="payTime" jdbcType="TIMESTAMP" />
+        <result column="state" property="state" jdbcType="VARCHAR" />
+        <result column="remark" property="remark" jdbcType="VARCHAR" />
+        <result column="code_url" property="codeUrl" jdbcType="VARCHAR" />
+        <result column="notify_url" property="notifyUrl" jdbcType="VARCHAR" />
+        <result column="return_url" property="returnUrl" jdbcType="VARCHAR" />
+    </resultMap>
+    <sql id="Base_Column_List" >
+    id, merchant_id, order_no, trade_no, pay_type, order_price, product_name, add_time,pay_time,state
+    </sql>
+    <insert id="insertOrder">
+        insert into orders
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                id,
+            </if>
+            <if test="merchantId != null" >
+                merchant_id,
+            </if>
+            <if test="orderNo != null" >
+                order_no,
+            </if>
+            <if test="payType != null" >
+                pay_type,
+            </if>
+            <if test="orderPrice != null" >
+                order_price,
+            </if>
+            <if test="productName != null" >
+                product_name,
+            </if>
+            <if test="addTime != null" >
+                add_time,
+            </if>
+            <if test="status != null" >
+                status,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="merchantId != null" >
+                #{merchantId,jdbcType=VARCHAR},
+            </if>
+            <if test="orderNo != null" >
+                #{orderNo,jdbcType=VARCHAR},
+            </if>
+            <if test="payType != null" >
+                #{payType,jdbcType=VARCHAR},
+            </if>
+            <if test="orderPrice != null" >
+                #{orderPrice,jdbcType=VARCHAR},
+            </if>
+            <if test="productName != null" >
+                #{productName,jdbcType=VARCHAR},
+            </if>
+            <if test="addTime != null" >
+                #{addTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="status != null" >
+                #{status,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+    <delete id="deleteOrder">
+        delete from orders where id = #{id}
+    </delete>
+    <select id="selectOrders" resultType="com.kkk.entity.Orders">
+        select user_name as userName,o.id,merchant_id, order_no, trade_no, pay_type, order_price, product_name, o.add_time,
+        pay_time,o.state
+        from orders  o left join k_user u on o.merchant_id = u.id
+        where 1=1
+        <if test="merchantId != null and merchantId!= ''" >
+            and merchant_id = #{merchantId,jdbcType=BIGINT}
+        </if>
+        <if test="orderNo != null and orderNo!= ''" >
+            and order_no = #{orderNo,jdbcType=VARCHAR}
+        </if>
+        <if test="state!=null and state!=''">
+            and o.state=#{state}
+        </if>
+        <if test="startTime != null and startTime!= ''">
+            AND o.add_time &gt;= #{startTime}
+        </if>
+        <if test="endTime != null and startTime!= ''">
+            AND o.add_time &lt;= #{endTime}
+        </if>
+    </select>
+
+</mapper>

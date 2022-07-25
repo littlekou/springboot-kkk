@@ -19,7 +19,7 @@ public class CheckLoginInterceptor extends BaseController implements HandlerInte
 
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-		String servletPath = request.getServletPath();
+ 		String servletPath = request.getServletPath();
 		for (String url:noLoginUrls) {
 			if(request.getServletPath().startsWith(url)){
 				return true;

@@ -3,6 +3,7 @@
 <html>
 <head>
 	<jsp:include page="/page/common/static.jsp"></jsp:include>
+	<jsp:include page="/page/common/static-js.jsp"></jsp:include>
 	<title>用户列表</title>
 </head>
 <body>
@@ -16,7 +17,8 @@
         <div class="gformccontent">
             <label class="gformctitle">登录账号:</label><div class="gformcvalue"><input type="text" name="account" id="account" class="layui-input" ></div>
         </div>
-		<div class="gformccontent">
+			<input type="radio" name="sex" onchange="" value="男">
+			<div class="gformccontent">
 			<label class="gformctitle">用户名称:</label><div class="gformcvalue"><input type="text" name="userName" id="userName" class="layui-input" ></div>
 		</div>
 		<div class="gformccontent">
@@ -27,16 +29,14 @@
 			<select id="roleId" lay-verify="required" lay-search="">
 				<option value="">全部</option>
 				<c:forEach items="${role}" var="role">
-					<c:if test="${role.roleId!=1}">
-						<option value="${role.roleId}">${role.roleName}</option>
-					</c:if>
+					<option value="${role.roleId}">${role.roleName}</option>
 				</c:forEach>
 			</select>
 		</div>
 		</div>
 			<div class="layui-btn-group" style="float: left;">
 				<button type="button"  class="layui-btn" name="" id="search" ><i class="Hui-iconfont">&#xe665;</i>搜索</button>
-				<button type="button"  class="layui-btn" name="" id="addMember" onclick="toAddMember()" >+添加</button>
+				<button type="button"  class="layui-btn" name="" id="addMember" onclick="toAddUser()" >+添加</button>
 			</div>
 		</form>
 	</div>
@@ -45,9 +45,8 @@
 	<div id="dataMsg"></div>
 	<div id="merchantsPager"></div>
 </div>
-<jsp:include page="/page/common/static-js.jsp"></jsp:include>
 
-<script type="text/javascript" src="/static/plugins/layui-v2.2.45/layui.js"></script>
+
 <script type="text/javascript">
     var pageSize;
     var laypage;
@@ -111,7 +110,7 @@
         });
     })
 
-	function toAddMember(){
+	function toAddUser(){
     	layer.open({
     		type: 2,
     		area: ['520px', '510px'],
@@ -119,7 +118,7 @@
     		maxmin: true,
     		shade:0.4,
     		title: "添加用户",
-    		content: "member/toAddMember.html",
+    		content: "/user/toAddUser",
             success:function(){
                 $(":focus").blur();
             }
